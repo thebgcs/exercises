@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-// Import OpenZeppelin's ReentrancyGuard for protection against reentrancy attacks.
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-
 /// @notice Minimal ERC20 interface to check token balances.
 interface IERC20 {
     function balanceOf(address account) external view returns (uint256);
@@ -12,7 +9,7 @@ interface IERC20 {
 /// @title EthAndTokenWallet
 /// @notice This contract holds ETH and ERC20 tokens, allowing deposits from anyone,
 /// and implements a withdrawal function with different behavior for the owner and non-owners.
-contract EthAndTokenWallet is ReentrancyGuard {
+contract EthAndTokenWallet {
     address public owner;
 
     // Minimum ETH amount (in wei) that a non-owner withdrawal must meet.
@@ -44,7 +41,7 @@ contract EthAndTokenWallet is ReentrancyGuard {
     /// @notice Withdraws ETH from the contract.
     /// @dev The owner can withdraw all ETH. Non-owner wallets can only withdraw 10% of the total ETH,
     /// provided that 10% meets a minimum threshold.
-    function withdraw() public nonReentrant {
+    function withdraw() public {
         uint256 totalBalance = address(this).balance;
         require(totalBalance > 0, "No ETH available for withdrawal");
 
